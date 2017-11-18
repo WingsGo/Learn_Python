@@ -5,7 +5,7 @@ __author__ = 'WingC'
 
 import multiprocessing as mp
 import threading as th
-import quite,logging;logging.basicConfig(level=logging.WARNING)
+import quite,logging_setting;logging_setting.basicConfig(level=logging_setting.WARNING)
 from PySide.QtCore import Signal,QObject
 
 #Signal必须定义在继承自QObject的类方法中
@@ -39,7 +39,7 @@ class slave_ui(quite.DialogUiController):
                     new_data = pipe_receive.recv()
                     self.receive_signal.signal.emit(new_data)
                 except BaseException as e:
-                    logging.warning("Pipe Error %s" % e)
+                    logging_setting.warning("Pipe Error %s" % e)
         if pipe_receive is not None:
             th.Thread(target=check_data,daemon=True).start()        #启动守护线程监听信号
 

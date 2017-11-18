@@ -7,7 +7,7 @@ Simple ORM Practice for SQL
 
 __author__ = 'WingC'
 
-import logging;logging.basicConfig(level=logging.INFO)
+import logging_setting;logging_setting.basicConfig(level=logging_setting.INFO)
 
 class Field(object):
     def __init__(self,name,field_type):
@@ -29,12 +29,12 @@ class ModelMetaClass(type):
     def __new__(cls, name,bases,attrs):
         if name == 'Model':
             return type.__new__(cls, name,bases,attrs)
-        logging.info("Found Model %s" % name)
+        logging_setting.info("Found Model %s" % name)
         mappings = dict()
         for k,v in attrs.items():
             if isinstance(v,Field):
                 mappings[k] = v
-                logging.info("Found mapping %s <==> %s" % (k,v))
+                logging_setting.info("Found mapping %s <==> %s" % (k, v))
         for k in mappings.keys():
             attrs.pop(k)
         attrs['__mappings__'] = mappings
@@ -63,8 +63,8 @@ class Model(dict,metaclass=ModelMetaClass):
             params.append('?')
             args.append(getattr(self, k, None))
         sql = "insert into %s (%s) values (%s)" % (self.__table__, ','.join(fields), ','.join(map(str,args)))
-        logging.info('SQL:%s' % sql)
-        logging.info('ARGS:%s' % args)
+        logging_setting.info('SQL:%s' % sql)
+        logging_setting.info('ARGS:%s' % args)
 
 class User(Model):
     id = IntergerField('ID')
